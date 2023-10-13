@@ -1,0 +1,21 @@
+{
+	"entityos":
+	{
+		"hostname": "api.entityos.cloud", 
+		"logon": "learn-api@entityos.cloud", 
+		"password": "01c354ff-c6f5-4c9b-b423-b81b5a91e4cd",
+		"email": "[email]",
+		"testing": 
+		{
+			"status": "true",
+			"showData": "true",
+			"break": "-"
+		},
+		"convert": "true"
+	},
+	"proxy":
+	{
+		"namespace": "0000-1.0.0"
+	}
+}	
+

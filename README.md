@@ -30,3 +30,10 @@ Access Webservice:
 https://chat.openai.com/share/98bd2a20-10e0-4c2b-8dc3-7df6e5988224
 
 
+---
+
+Set up:
+
+pip3 install requests
+
+
