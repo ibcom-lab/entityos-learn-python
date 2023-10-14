@@ -15,16 +15,23 @@ def init(**kwargs):
 def send(**kwargs):
     print(kwargs)
 
-    url = kwargs['url']
-    data = kwargs['data']
-    contenttype = kwargs['contenttype']
+    url = kwargs.get('url')
+    data = kwargs.get('data', {})
+    contenttype = kwargs.get('contenttype')
+
     if (contenttype == None):
         contenttype = 'application/x-www-form-urlencoded'
     
     headers = dict()
-    headers['auth-sid'] = data['session']['sid']
-    headers['auth-logonkey'] =  data['session']['logonkey']
-    headers['Content-Type'] = contenttype
+    headers['auth-sid'] = entityos_data['session']['sid']
+    headers['auth-logonkey'] =  entityos_data['session']['logonkey']
+    headers['content-type'] = contenttype
+
+    data['sid'] = entityos_data['session']['sid']
+    data['logonkey'] =  entityos_data['session']['logonkey']
+
+    print('#SEND DATA:')
+    print(data)
 
     response = requests.post(url, data=data, headers=headers)
 
@@ -53,11 +60,11 @@ def logon(**kwargs):
     response = requests.post(logonAuthURL, data=logonAuthData)
 
     if response.status_code == 200:
-        responseData = response.json();
-
-        
-        entityos_data['session']['logonkey'] = responseData['logonkey']
-
+        logonAuthResponseData = response.json();
+        print('#LOGON AUTH RESPONSE:')
+        print(logonAuthResponseData)
+        entityos_data['session']['logonkey'] = logonAuthResponseData.get('logonkey')
+       
         # LOGON
 
         logonData = dict()
@@ -72,12 +79,14 @@ def logon(**kwargs):
         response = requests.post(logonURL, data=logonData)
 
         if response.status_code == 200:
-            data = response.json()
+            logonResponseData = response.json()
+            entityos_data['session']['logonkey'] = logonResponseData.get('logonkey')
+            entityos_data['session']['sid'] = logonResponseData.get('sid')
 
             if (oncomplete == None):
-                return data
+                return logonResponseData
             else:
-                oncomplete(data)
+                oncomplete(logonResponseData)
 
         else:
             print("ER:", response.status_code)
@@ -92,13 +101,37 @@ def invoke(**kwargs):
     print(kwargs)
 
 def search(**kwargs):
-    search = dict()
-    search['criteria'] = dict(search_criteria)
+    sendArgs = dict()
+    sendArgs['data'] = dict()
+    sendArgs['data']['criteria'] = dict(search_criteria)
 
-    # use kwargs
-    # set URL etc
+    sendArgs['data']['object'] = kwargs.get('object')
 
-    send(search)
+    if (kwargs.get('fields') != None):
+         sendArgs['data']['criteria']['fields'] = list(map(lambda f: {'name': f}, kwargs['fields']))
+
+    if (kwargs.get('summaryFields') != None):
+         sendArgs['data']['criteria']['summaryFields'] = kwargs['summaryFields']
+
+    if (kwargs.get('filters') != None):
+         sendArgs['data']['criteria']['filters'] = kwargs['filters']
+
+    if (kwargs.get('options') != None):
+         sendArgs['data']['criteria']['options'] = kwargs['options']
+
+    if (kwargs.get('customOptions') != None):
+         sendArgs['data']['criteria']['customOptions'] = kwargs['customOptions']
+
+    if (kwargs.get('rows') != None):
+         sendArgs['data']['criteria']['rows'] = kwargs['rows']
+
+    endpoint = sendArgs['data']['object'].split('_')[0]
+
+    sendArgs['url'] = 'https://' + entityos_data['settings']['entityos']['hostname'] + '/rpc/' + endpoint + '/?method=' + sendArgs['data']['object'].upper() + '_SEARCH'
+
+    sendArgs['data']['criteria'] = json.dumps(sendArgs['data']['criteria'])
+  
+    return send(**sendArgs)
 
 def save(**kwargs):
     print(kwargs)
@@ -106,7 +139,7 @@ def save(**kwargs):
 def delete(**kwargs):
     print(kwargs)
 
-search_criteria ={
+search_criteria = {
             'fields': [],
             'summaryFields': [],
             'filters': [],

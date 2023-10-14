@@ -2,14 +2,13 @@ import entityos_cloud as cloud
 import entityos_app as app
 
 def start(data):
-    print(data)
-    search = dict()
-    search['object'] = 'contact_person'
-    search['fields'] = ['firstname']
-    search['row'] = 999
-    print(search)
+    searchArgs = dict()
+    searchArgs['object'] = 'contact_person'
+    searchArgs['fields'] = ['firstname']
+    searchArgs['row'] = 999
 
-    cloud.search(search)
+    responseData = cloud.search(**searchArgs)
+    print(responseData)
 
 cloud.init()
 cloud.logon(oncomplete=start)
