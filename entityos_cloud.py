@@ -13,8 +13,6 @@ def init(**kwargs):
         return entityos_data['settings']
 
 def send(**kwargs):
-    print(kwargs)
-
     url = kwargs.get('url')
     data = kwargs.get('data', {})
     contenttype = kwargs.get('contenttype')
