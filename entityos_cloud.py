@@ -5,7 +5,8 @@ import entityos_util as util
 entityos_data = dict()
 
 def init(**kwargs):
-    with open('settings.json', 'r') as file:
+    file = kwargs.get('file', 'settings.json')
+    with open(file, 'r') as file:
         settings = file.read()
         entityos_data['settings'] = json.loads(settings)
         entityos_data['session'] = dict()

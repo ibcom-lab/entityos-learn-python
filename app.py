@@ -10,6 +10,10 @@ def start(data):
     responseData = cloud.search(**searchArgs)
     print(responseData)
 
-cloud.init()
+# replace settings-private.json with the name of your settings file
+# i.e. edit settings.json with your logon details and can then do as
+# file='settings.json'
+
+cloud.init(file='settings-private.json')
 cloud.logon(oncomplete=start)
 
