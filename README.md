@@ -2,10 +2,12 @@
 
 Example Python code for accessing entityOS.cloud service
 
-- Python:
-https://python.org
-https://www.python.org/downloads/
-Run .command to set up terminal defaults.. PATH= etc
+
+## Python:
+
+- https://python.org
+- https://www.python.org/downloads/
+- Run .command to set up terminal defaults.. PATH= etc
 
 - Packages:
 https://pypi.org
