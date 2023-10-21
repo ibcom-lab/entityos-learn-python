@@ -21,21 +21,28 @@ def init(**kwargs):
         app_data['settings'] = json.loads(settings)
         return app_data['settings']
 
+# Controllers
+
 def add(**kwargs):
+    # Add function to controller
     print(kwargs)
 
 def invoke(**kwargs):
+    # Invoke controller function to controller
     print(kwargs)
 
-#-
+# Data
 
 def clear(**kwargs):
+    # Clear data based on scope and context
     print(kwargs)
 
 def set(**kwargs):
+    # Set data based on scope and context
     print(kwargs)
 
 def get(**kwargs):
+    # Get data based on scope and context
     print(kwargs)
 
 
