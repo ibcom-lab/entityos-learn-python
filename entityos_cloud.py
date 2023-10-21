@@ -132,10 +132,45 @@ def search(**kwargs):
     return send(**sendArgs)
 
 def save(**kwargs):
-    print(kwargs)
+    saveArgs = dict()
+    saveArgs['data'] = kwargs.get('data', {})
+    
+    if not all(key in saveArgs['data'] for key in ['id']):
+        print("Error: data must contain 'id'.")
+        return None
+
+    saveArgs['object'] = kwargs.get('object')
+    
+    # Identify the endpoint and method based on the object type
+    endpoint = saveArgs['object'].split('_')[0]
+    method = saveArgs['object'].upper() + '_MANAGE'
+
+    # Set the URL for the save operation
+    saveArgs['url'] = 'https://' + entityos_data['settings']['entityos']['hostname'] + '/rpc/' + endpoint + '/?method=' + method
+    
+    return send(**saveArgs)
+
 
 def delete(**kwargs):
-    print(kwargs)
+    deleteArgs = dict()
+    deleteArgs['data'] = dict()
+
+    deleteArgs['data']['id'] = kwargs.get('id')
+    deleteArgs['object'] = kwargs.get('object')
+    
+    if not deleteArgs['data']['id'] or not  deleteArgs['object']:
+        print("Error: Must provide 'id' and 'objectType'.")
+        return None
+
+    deleteArgs['data']['remove'] = 1
+    
+    endpoint = deleteArgs[]'object'] .split('_')[0]
+    method = deleteArgs['object'].upper() + '_MANAGE'
+
+    deleteArgs['url'] = 'https://' + entityos_data['settings']['entityos']['hostname'] + '/rpc/' + endpoint + '/?method=' + method
+    
+    return send(**deleteArgs)
+
 
 search_criteria = {
             'fields': [],
