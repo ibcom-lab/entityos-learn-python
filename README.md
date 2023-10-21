@@ -2,6 +2,8 @@
 
 Example Python code for accessing entityOS.cloud service.
 
+- Start with app.py.
+
 ## Imports
 - entityos_cloud: for interacting with the cloud service.
 - entityos_util: some util functions e.g. hashing for logon function.
