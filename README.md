@@ -1,4 +1,4 @@
-# entityos-learn-python
+# entityOS Learn | Python
 
 Example Python code for accessing entityOS.cloud service
 
