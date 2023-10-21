@@ -164,7 +164,7 @@ def delete(**kwargs):
 
     deleteArgs['data']['remove'] = 1
     
-    endpoint = deleteArgs[]'object'] .split('_')[0]
+    endpoint = deleteArgs['object'] .split('_')[0]
     method = deleteArgs['object'].upper() + '_MANAGE'
 
     deleteArgs['url'] = 'https://' + entityos_data['settings']['entityos']['hostname'] + '/rpc/' + endpoint + '/?method=' + method
