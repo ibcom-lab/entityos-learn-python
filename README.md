@@ -17,6 +17,10 @@ https://www.anaconda.com/download#macos
 - Set up:
 pip3 install requests
 
+## entityOS
+- https://entityos.cloud
+- https://learn.enttityos.cloud
+
 ## Generative AI
 
 - https://entityos.ai
