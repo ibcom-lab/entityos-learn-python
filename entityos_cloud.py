@@ -41,7 +41,30 @@ def send(**kwargs):
        return response.status_code
 
 def upload(**kwargs):
-    print(kwargs)
+    filename = kwargs.get('filename')
+    obj = kwargs.get('object')
+    objContext = kwargs.get('objectContext')
+    isBase64 = kwargs.get('base64')
+    fileType = kwargs.get('type')
+    fileData = kwargs.get('fileData')
+   
+    # entityos_data['settings']
+   
+    if not isBase64:
+        import base64
+
+        with open(filename, "rb") as file:
+            fileData = base64.b64encode(file.read()).decode()
+
+    response = invoke(
+        method='core_attachment_from_base64',
+        data={
+            'base64': fileData,
+            'filename': filename,
+            'object': obj,
+            'objectcontext': objContext,
+            'type': fileType
+            })
 
 def logon(**kwargs):
      # LOGON AUTH LEVEL
@@ -92,11 +115,25 @@ def logon(**kwargs):
     else:
          print("ER:", response.status_code)
 
-def logoff(**kwargs):
-    print(kwargs)
+def logoff():
+    logoffURL = 'https://' + entityos_data['settings']['entityos']['hostname'] + '/rpc/coree/?method=CORE_LOGOFF'
+    send(url=logoffURL)
 
 def invoke(**kwargs):
-    print(kwargs)
+    invokeArgs = dict()
+    invokeArgs['data'] = kwargs.get('data')
+    invokeArgs['method'] = kwargs.get('method')
+    
+    if not invokeArgs['method']:
+        print("Error: Must provide 'method'.")
+        return None
+    
+    endpoint = invokeArgs['method'] .split('_')[0]
+    method = invokeArgs['method']
+
+    invokeArgs['url'] = 'https://' + entityos_data['settings']['entityos']['hostname'] + '/rpc/' + endpoint + '/?method=' + method
+    
+    return send(**invokeArgs)
 
 def search(**kwargs):
     sendArgs = dict()
